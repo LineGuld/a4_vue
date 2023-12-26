@@ -22,26 +22,16 @@ export async function signIn(username: string, password: string) {
     });
 
     if (result.ok) {
-
-        let _token;
-        let _id;
-
-        result.json()
-            .then((info) => {
-                _token = info.token
-                _id = info.userId
-                console.log(info.token)
-                console.log(info.userId)
-
-                let authUser = {
-                    id: _id,
-                    username: username,
-                    password: password,
-                    token: _token
-                }
-                return authUser
-            }
-        )
+        const data = await result.json();
+        
+        let authUser = {
+            id: data.userId,
+            username: username,
+            password: password,
+            token: data.token
+        }
+        
+        return authUser
     }
     else {
         const { errors } = await result.json()

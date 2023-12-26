@@ -16,19 +16,11 @@ const authState = ref<AuthState>({ mode: 'not signed in', user: undefined })
 function submit({username, password}) {
   signingIn(username, password)
 }
-  async function signingIn(username, password) {
-  await signIn(username, password)
-    .then((_user) => {
-      console.log(_user)
 
-      authState.value.user = {
-      id: _user.id,
-      username: _user.username,
-      password: "",
-      token: _user.token
-    }
-    authState.value.mode = 'signed in'
-    })
+async function signingIn(username, password) {
+  let result = await signIn(username, password);
+  authState.value.user = result;
+  authState.value.mode = 'signed in'
 }
 
 function goToSignin() {
