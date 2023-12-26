@@ -3,8 +3,8 @@ import { User } from '../api/model';
 import { ref } from 'vue'
 import{signIn} from '../api/api'
 
-const username = ref('User.username')
-const password = ref('User.password')
+const username = ref('username')
+const password = ref('password')
 
 async function SignIn(username, password) {
 
