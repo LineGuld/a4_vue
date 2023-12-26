@@ -3,7 +3,7 @@ import HelloWorld from './components/HelloWorld.vue';
 import SignIn from './components/SignIn.vue';
 import WelcomeUser from './components/WelcomeUser.vue';
 import { AuthState } from './api/model';
-import { User } from './api/model';
+import type {User} from './api/model';
 import { signIn } from './api/api'
 import { ref } from 'vue';
 
@@ -16,15 +16,19 @@ const authState = ref<AuthState>({ mode: 'not signed in', user: undefined })
 function submit({username, password}) {
   signingIn(username, password)
 }
-async function signingIn(username, password) {
-  var user = await signIn(username, password)
-  authState.value.user = {
-    id: user.id,
-    username: user.username,
-    password: "",
-    token: user.token
-  }
-  authState.value.mode = 'signed in'
+  async function signingIn(username, password) {
+  await signIn(username, password)
+    .then((_user) => {
+      console.log(_user)
+
+      authState.value.user = {
+      id: _user.id,
+      username: _user.username,
+      password: "",
+      token: _user.token
+    }
+    authState.value.mode = 'signed in'
+    })
 }
 
 function goToSignin() {
