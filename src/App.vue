@@ -1,34 +1,46 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import HelloWorld from './components/HelloWorld.vue';
 import SignIn from './components/SignIn.vue';
-import {AuthState} from './api/model'
-import { ref } from 'vue'
+import WelcomeUser from './components/WelcomeUser.vue';
+import { AuthState } from './api/model';
+import { User } from './api/model';
+import { signIn } from './api/api'
+import { ref } from 'vue';
 
 type AppState = {
-    authState: AuthState
-  }
+  authState: AuthState
+}
 
-  const authState = ref<AuthState>({mode: 'not signed in', user: undefined})
-    
-  function signedIn() {
-    authState.value.mode = 'signed in'
-  }
+const authState = ref<AuthState>({ mode: 'not signed in', user: undefined })
 
-  function GoToSignIn() {
-    authState.value.mode = 'not signed in',
-    authState.value.user = undefined
+function submit({username, password}) {
+  signingIn(username, password)
+}
+async function signingIn(username, password) {
+  var user = await signIn(username, password)
+  authState.value.user = {
+    id: user.id,
+    username: user.username,
+    password: "",
+    token: user.token
   }
+  authState.value.mode = 'signed in'
+}
 
- function GoToHelloWorld(){
-   signedIn();
- }
+function goToSignin() {
+  authState.value.mode = 'not signed in'
+}
+
+function welcomeUser() {
+  authState.value.mode = 'signed in'
+}
 
 </script>
 
 <template>
-  <HelloWorld msg="Welcome" />
-  <SignIn v-if="authState.mode=='not signed in'"  @go-to-signin="GoToSignIn"/>
-  <SignIn v-if="authState.mode=='signed in'"  @go-to-helloworld="GoToHelloWorld"/>
+  <SignIn v-if="authState.mode == 'not signed in'" @go-to-signin="signingIn" @submit="submit" />
+  <WelcomeUser msg="Signed in" :user="authState.user" v-if="authState.mode == 'signed in'"
+    @go-to-WelcomeUser="welcomeUser" />
 </template>
 
 <style scoped>
@@ -38,9 +50,11 @@ type AppState = {
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.vue:hover {
   filter: drop-shadow(0 0 2em #42b883aa);
 }

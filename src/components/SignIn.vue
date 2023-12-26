@@ -6,21 +6,23 @@ import{signIn} from '../api/api'
 const username = ref('username')
 const password = ref('password')
 
-async function SignIn(username, password) {
 
-    console.log(username + " " + password)
-
-    signIn(username, password)
-  }
+ defineProps: ({
+   username: String,
+   password: String
+ })
+ 
+ defineEmits: ['submit']
+  
 </script>
 
 <template>
     <h2>Please sign in</h2>
-    <input v-model="username" placeholder="username"> 
-    <input v-model="password" placeholder="password"> 
-    <button @click="SignIn(username, password)">Sign in</button>
+  <!--
+  We can create two-way bindings between state and form inputs using the v-model directive.
+  -->
+    <input v-model="username" placeholder="username"> <br>
+    <input type="password" v-model="password" placeholder="password"><br>
+    <button @click="$emit('submit', {username, password})">Sign in</button>
 </template>
 
-<!--
-We can create two-way bindings between state and form inputs using the v-model directive.
--->

@@ -10,14 +10,6 @@ import { User } from "./model";
 let url = 'http://localhost:9090'
 
 export async function signIn(username: string, password: string){
-   
-    let authUser = {
-        id:0,
-        username: username,
-        password: password,
-        token: null
-    };
-
     let _body =  JSON.stringify({username,password})
 
     const result = await fetch(`http://localhost:9090/login`, {
@@ -29,13 +21,17 @@ export async function signIn(username: string, password: string){
         body: _body
       });
 
-
-    
-    if(result.ok)
-    {
-    const json = result.json()
-    
-    console.log(json)
+    if (result.ok) {
+        let authUser = User();
+        
+        const json = result.json()
+            .then((info) =>
+                authUser = User(
+                    id = info.userId,
+                    username = username,
+                    password = password,
+                    token = info.token
+                ));
 
     return authUser 
     }
