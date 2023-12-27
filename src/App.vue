@@ -31,12 +31,17 @@ function welcomeUser() {
   authState.value.mode = 'signed in'
 }
 
+function signOut(){
+  authState.value.mode = 'not signed in'
+  authState.value.user = undefined
+}
+
 </script>
 
 <template>
   <SignIn v-if="authState.mode == 'not signed in'" @go-to-signin="signingIn" @submit="submit" />
   <WelcomeUser msg="Signed in" :user="authState.user" v-if="authState.mode == 'signed in'"
-    @go-to-WelcomeUser="welcomeUser" />
+    @go-to-WelcomeUser="welcomeUser" @sign-out="signOut"/>
 </template>
 
 <style scoped>

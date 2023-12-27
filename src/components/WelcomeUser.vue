@@ -9,6 +9,8 @@ defineProps({
   } 
 })
 
+defineEmits: ['signOut']
+
 const count = ref(0)
 
 </script>
@@ -17,6 +19,8 @@ const count = ref(0)
   <h1>{{ msg }}</h1>
   <h2>Welcome {{ user.username }}</h2>
   Here is your token: {{ user?.token }}
+<br>
+  <button @click="$emit('signOut')">Sign out</button>
 </template>
 
 <style scoped>
