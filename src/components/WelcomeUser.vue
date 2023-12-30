@@ -8,11 +8,6 @@ defineProps({
     type: Object as PropType<User>
   } 
 })
-
-defineEmits: ['signOut']
-
-const count = ref(0)
-
 </script>
 
 <template>

@@ -5,14 +5,6 @@ import{signIn} from '../api/api'
 
 const username = ref('username')
 const password = ref('password')
-
-
- defineProps: ({
-   username: String,
-   password: String
- })
- 
- defineEmits: ['submit']
   
 </script>
 

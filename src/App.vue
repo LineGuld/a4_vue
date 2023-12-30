@@ -7,9 +7,7 @@ import type {User} from './api/model';
 import { signIn } from './api/api'
 import { ref } from 'vue';
 
-type AppState = {
-  authState: AuthState
-}
+type AppState = {authState: AuthState}
 
 const authState = ref<AuthState>({ mode: 'not signed in', user: undefined })
 
