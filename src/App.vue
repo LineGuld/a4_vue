@@ -3,15 +3,15 @@ import HelloWorld from './components/HelloWorld.vue';
 import SignIn from './components/SignIn.vue';
 import WelcomeUser from './components/WelcomeUser.vue';
 import { AuthState } from './api/model';
-import type {User} from './api/model';
+import type { User } from './api/model';
 import { signIn } from './api/api'
 import { ref } from 'vue';
 
-type AppState = {authState: AuthState}
+type AppState = { authState: AuthState }
 
 const authState = ref<AuthState>({ mode: 'not signed in', user: undefined })
 
-function submit({username, password}) {
+function submit({ username, password }) {
   signingIn(username, password)
 }
 
@@ -21,25 +21,15 @@ async function signingIn(username, password) {
   authState.value.mode = 'signed in'
 }
 
-function goToSignin() {
-  authState.value.mode = 'not signed in'
-}
-
-function welcomeUser() {
-  authState.value.mode = 'signed in'
-}
-
-function signOut(){
+function signOut() {
   authState.value.mode = 'not signed in'
   authState.value.user = undefined
 }
-
 </script>
 
 <template>
-  <SignIn v-if="authState.mode == 'not signed in'" @go-to-signin="signingIn" @submit="submit" />
-  <WelcomeUser msg="Signed in" :user="authState.user" v-if="authState.mode == 'signed in'"
-    @go-to-WelcomeUser="welcomeUser" @sign-out="signOut"/>
+  <SignIn v-if="authState.mode == 'not signed in'" @submit="submit" />
+  <WelcomeUser msg="Signed in" :user="authState.user" v-if="authState.mode == 'signed in'" @sign-out="signOut" />
 </template>
 
 <style scoped>
